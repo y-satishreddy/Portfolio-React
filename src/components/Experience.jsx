@@ -1,126 +1,256 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
+/* ======================
+   SAME ANIMATION SYSTEM AS ABOUT
+====================== */
+
+const lineReveal = {
+  hidden: { y: "100%" },
+  visible: {
+    y: "0%",
+    transition: {
+      duration: 1.4,
+      ease: "easeOut",
+    },
+  },
+};
+
+const wrapper = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.45, // slow, reading pace
+    },
+  },
+};
+
+const expand = {
+  hidden: {
+    height: 0,
+    opacity: 0,
+  },
+  visible: {
+    height: "auto",
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      staggerChildren: 0.4,
+    },
+  },
+  exit: {
+    height: 0,
+    opacity: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const RevealText = ({ children, className }) => (
+  <div className="overflow-hidden">
+    <motion.div variants={lineReveal} className={className}>
+      {children}
+    </motion.div>
+  </div>
+);
+
+/* ======================
+   Data
+====================== */
 const EXPERIENCE_DATA = [
+  {
+    id: "whitethoughts",
+    company: "White Thoughts & Branding",
+    role: "WordPress & Frontend Developer",
+    period: "Jun 2025 – Present",
+    location: "India",
+    responsibilities: [
+      "Delivered complete WordPress websites from concept to deployment for diverse clients.",
+      "Developed custom WordPress themes using PHP, HTML, CSS, and JavaScript.",
+      "Customized themes and plugins to meet branding, design, and functional requirements.",
+      "Built dynamic and editable layouts using Advanced Custom Fields (ACF).",
+      "Optimized websites for speed, SEO, accessibility, and mobile responsiveness.",
+      "Integrated contact forms, analytics, SEO tools, and third-party services.",
+      "Translated UI/UX designs into pixel-perfect, user-friendly interfaces.",
+      "Ensured scalability, security, and long-term maintainability of WordPress projects.",
+    ],
+  },
   {
     id: "techm",
     company: "Tech Mahindra",
-    role: "Frontend Developer",
-    period: "Jan 2022 – Mar 2024",
+    role: "Associate Software Engineer",
+    period: "Oct 2024 – Apr 2025",
+    location: "Ahmedabad, India",
     responsibilities: [
-      "Developed responsive UI using React and Tailwind CSS.",
-      "Worked with REST APIs and improved application performance.",
-      "Collaborated with designers and backend engineers.",
+      "Designed and developed fully responsive web interfaces using HTML, CSS, and JavaScript.",
+      "Built reusable and interactive UI components with clean, maintainable code.",
+      "Handled frontend API integrations using Fetch API and asynchronous JavaScript.",
+      "Implemented EmailJS for real-time form submissions and user interactions.",
+      "Ensured cross-browser compatibility and optimized frontend performance.",
+      "Collaborated with backend teams to deliver stable, production-ready features.",
     ],
   },
   {
     id: "excelr",
     company: "ExcelR",
-    role: "Full Stack Trainee",
-    period: "Aug 2021 – Dec 2021",
+    role: "Jr. Full Stack Developer",
+    period: "Apr 2023 – Jun 2024",
+    location: "Hyderabad, India",
     responsibilities: [
-      "Completed hands-on MERN stack training.",
-      "Built real-world projects during the program.",
-      "Strengthened JavaScript and React fundamentals.",
-    ],
-  },
-  {
-    id: "whitethoughts",
-    company: "White Thoughts & Branding",
-    role: "Frontend Intern",
-    period: "May 2021 – Jul 2021",
-    responsibilities: [
-      "Designed and developed marketing websites.",
-      "Implemented pixel-perfect UI designs.",
-      "Optimized sites for SEO and performance.",
+      "Developed backend services using Java and Spring Boot following OOP principles.",
+      "Designed and implemented RESTful APIs with proper validation and error handling.",
+      "Worked with MySQL databases and optimized queries for performance.",
+      "Implemented authentication, session management, and async processing.",
+      "Deployed applications on AWS with environment-based configurations.",
+      "Collaborated with frontend teams to integrate APIs seamlessly.",
     ],
   },
 ];
+/* ======================
+   Component
+====================== */
 
 const Experience = () => {
-  const [opened, setOpened] = useState([]);
+  const [opened, setOpened] = useState(null);
 
-  const handleAdd = (id) => {
-    if (opened.includes(id)) return;
-    setOpened((prev) => [...prev, id]);
+  const toggle = (id) => {
+    setOpened((prev) => (prev === id ? null : id));
   };
 
-  const handleRemove = (id) => {
-    setOpened((prev) => prev.filter((item) => item !== id));
-  };
-
-  const openedExperiences = EXPERIENCE_DATA.filter((exp) =>
-    opened.includes(exp.id)
-  );
-
-  const remainingExperiences = EXPERIENCE_DATA.filter(
-    (exp) => !opened.includes(exp.id)
-  );
+  const active = EXPERIENCE_DATA.find((e) => e.id === opened);
 
   return (
-    <section className="bg-black w-full md:flex items-center flex-col">
-      <div className="w-full h-14 md:h-12"></div>
+    <section className="bg-black w-full flex flex-col items-center overflow-hidden">
+      <div className="w-full h-14 md:h-12" />
 
-      <div className="max-w-[900px] flex flex-col items-start w-full justify-start px-[20px] md:px-[50px] py-8">
-        <h2 className="text-white w-full text-[60px] md:text-[80px] font-semibold">
-          Experience
-        </h2>
+      <motion.div
+        className="max-w-[1000px] w-full px-[20px] md:px-[50px] py-8"
+        variants={wrapper}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-120px" }}
+      >
+        {/* Heading */}
+        <RevealText className="text-white text-[60px] md:text-[80px] font-semibold">
+          <motion.h2 variants={lineReveal}>Experience</motion.h2>
+        </RevealText>
 
-        <p className="text-white">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti
-          fugit ex assumenda quas maxime aspernatur accusantium suscipit earum
-          accusamus provident.
-        </p>
+        {/* Intro */}
+        <RevealText className="text-gray-300 text-[16px] md:text-[18px] leading-relaxed mt-4 max-w-[800px]">
+          <motion.p variants={lineReveal}>
+            Full Stack & WordPress Developer with{" "}
+            <span className="text-white font-medium">
+              2.2+ years of professional experience
+            </span>{" "}
+            delivering high-quality, scalable websites and applications.
+            Specialized in{" "}
+            <span className="text-white font-medium">
+              custom WordPress development
+            </span>
+            , theme customization, and performance optimization. Strong
+            experience in building{" "}
+            <span className="text-white font-medium">
+              SEO-friendly, responsive, and conversion-focused
+            </span>{" "}
+            digital solutions using WordPress, React.js, Java, Spring Boot, and
+            AWS.{" "}
+          </motion.p>
+        </RevealText>
 
-        {/* OPENED EXPERIENCE SECTIONS */}
-        <div className="w-full mt-12 space-y-12">
-          {openedExperiences.map((exp) => (
-            <div key={exp.id} className="relative border-l-2 border-white pl-6">
-              {/* CLOSE BUTTON */}
-              <button
-                onClick={() => handleRemove(exp.id)}
-                className="absolute top-0 right-0 text-gray-400 hover:text-white text-xl"
-                aria-label="Close experience"
-              >
-                ✕
-              </button>
+        {/* BUTTONS (NOW ANIMATED) */}
+        <motion.div
+          variants={wrapper}
+          className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+        >
+          {EXPERIENCE_DATA.map((exp) => {
+            const isOpen = opened === exp.id;
 
-              <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-                <div>
-                  <h3 className="text-white text-3xl font-semibold">
-                    {exp.company}
-                  </h3>
-                  <p className="text-gray-400">{exp.role}</p>
-                </div>
-                <p className="text-sm text-gray-400 mt-2 md:mt-0">
-                  {exp.period}
-                </p>
-              </div>
+            return (
+              <RevealText key={exp.id}>
+                <motion.button
+                  variants={lineReveal}
+                  onClick={() => toggle(exp.id)}
+                  className={`
+                    w-full px-6 py-4 border flex justify-between
+                    transition-colors duration-300
+                    ${
+                      isOpen
+                        ? "bg-white text-black border-white"
+                        : "text-white border-gray-600 hover:border-white"
+                    }
+                  `}
+                >
+                  <span>{exp.company}</span>
+                  <span>{isOpen ? "−" : "+"}</span>
+                </motion.button>
 
-              <div className="mt-4 space-y-2 text-gray-300">
-                {exp.responsibilities.map((item, index) => (
-                  <p key={index}>• {item}</p>
+                {/* MOBILE EXPAND */}
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      variants={expand}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      className="md:hidden mt-4 bg-[#0d0d0d] border border-gray-700 p-5 overflow-hidden"
+                    >
+                      <RevealText className="text-white font-semibold text-lg">
+                        <motion.p variants={lineReveal}>{exp.role}</motion.p>
+                      </RevealText>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        {exp.period} · {exp.location}
+                      </p>
+
+                      <div className="mt-4 space-y-3 text-gray-300">
+                        {exp.responsibilities.map((item, i) => (
+                          <RevealText key={i}>
+                            <motion.p variants={lineReveal}>— {item}</motion.p>
+                          </RevealText>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </RevealText>
+            );
+          })}
+        </motion.div>
+
+        {/* DESKTOP PANEL */}
+        <AnimatePresence>
+          {active && (
+            <motion.div
+              variants={expand}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="hidden md:block mt-12 bg-[#0d0d0d] border border-gray-700 p-6 overflow-hidden"
+            >
+              <RevealText className="text-white text-3xl font-semibold">
+                <motion.h3 variants={lineReveal}>{active.company}</motion.h3>
+              </RevealText>
+
+              <p className="text-gray-400 mt-1">{active.role}</p>
+
+              <p className="text-sm text-gray-500 mt-1">
+                {active.period} · {active.location}
+              </p>
+
+              <div className="mt-6 space-y-3 text-gray-300">
+                {active.responsibilities.map((item, i) => (
+                  <RevealText key={i}>
+                    <motion.p variants={lineReveal}>— {item}</motion.p>
+                  </RevealText>
                 ))}
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* BUTTONS */}
-        {remainingExperiences.length > 0 && (
-          <div className="flex flex-wrap gap-4 mt-14">
-            {remainingExperiences.map((exp) => (
-              <button
-                key={exp.id}
-                onClick={() => handleAdd(exp.id)}
-                className="text-black bg-white px-6 py-2 rounded-full font-medium
-                           hover:bg-gray-200 transition"
-              >
-                {exp.company} +
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 };

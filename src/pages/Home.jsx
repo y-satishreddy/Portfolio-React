@@ -3,7 +3,6 @@ import Banner from "../components/Banner";
 const Home = () => {
   return (
     <>
-      <Header />
       <Banner />
     </>
   );

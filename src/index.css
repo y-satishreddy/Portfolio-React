@@ -6,3 +6,17 @@ html {
 .bg-white {
   background-color: white !important;
 }
+html,
+body {
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+}
+
+p {
+  font-family: "Inter", sans-serif;
+}

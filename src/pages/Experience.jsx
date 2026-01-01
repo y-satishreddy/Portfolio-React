@@ -3,7 +3,6 @@ import ExperienceComponent from "../components/Experience";
 const Experience = () => {
   return (
     <>
-      <Header />
       <ExperienceComponent />
     </>
   );

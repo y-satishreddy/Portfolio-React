@@ -3,7 +3,6 @@ import ProjectsComponent from "../components/Projects";
 const Projects = () => {
   return (
     <>
-      <Header />
       <ProjectsComponent />
     </>
   );

@@ -1,9 +1,9 @@
 import Header from "../components/Navbar";
-import About from "../components/About";
+import ContactComponent from "../components/Contact";
 const AboutMe = () => {
   return (
     <>
-      <About />
+      <ContactComponent />
     </>
   );
 };
